@@ -1,5 +1,6 @@
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
+const { table } = require('console');
 // const { type } = require('os');
 // const { default: Choices } = require('inquirer/lib/objects/choices');
 
@@ -38,5 +39,25 @@ const connection = mysql.createConnection({
         ]
     }
     ])
+    .then((answer) => {
+        const {action}=answer;
+        if(action ==="exit") {
+            console.log('closing the app');
+            process.exit();
+        }else {
+            createTables(action)
+        }
+    }
+    )
   }
   openPanel();
+
+function createTables(action){
+
+  const option = action;
+  console.log(action);
+//   const table = new TableOpt(action);
+//   const tableResult = table.action;
+}
+createTables();
+
