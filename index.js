@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-const { TablesCreate,Department } = require('./lib/Tables');
+const { TablesCreate} = require('./lib/Tables');
 
 function openPanel() {
   inquirer
@@ -23,15 +23,42 @@ function openPanel() {
     .then((answer) => {
       const { action } = answer;
 
-      if (action === 'exit') {
+      if (action === 'add a department') {
+        // Call the function to add a department
+        addedDepartment();
+      } else if (action === 'exit') {
         console.log('Closing the app');
         process.exit();
       } else {
         const tablesCreate = new TablesCreate(action);
         tablesCreate.render().then(() => {
-          openPanel(); 
+          openPanel();
         });
       }
+    });
+}
+
+function addedDepartment() {
+  inquirer
+    .prompt([
+      {
+        type: 'input',
+        name: 'department_name',
+        message: 'Enter the department name:'
+      }
+    ])
+    .then((answer) => {
+      const department = new TablesCreate(answer);
+      department.addDepartment(answer)
+        .then(() => {
+          console.log('Department added successfully!');
+          console.log(answer);
+          openPanel();
+        })
+        .catch((error) => {
+          console.log('Error adding department:', error);
+          openPanel();
+        });
     });
 }
 

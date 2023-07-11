@@ -5,12 +5,12 @@ VALUES
     ('Human Resources'),
     ('Payroll Management'),
     ('Employee Relations'),
-    ('Recruitment and Talent Acquisition'),
-    ('Training and Development'),
-    ('Compensation and Benefits'),
-    ('Health and Safety'),
+    ('Talent Acquisition'),
+    ('Development'),
+    ('Benefits'),
+    ('Health'),
     ('Labor Relations'),
-    ('Compliance and Ethics'),
+    ('Compliance'),
     ('Employee Engagement');
 
 
@@ -45,10 +45,10 @@ VALUES
     ('Employee Advocater','76000',8),
     ('Compliance Manager','60000',9),
     ('Compliance Analyst', '550000',9),
-    ('Ethics and Compliance Coordinator','76000',9),
+    ('Ethics ','76000',9),
     ('Compliance Manager','60000',10),
     ('Compliance Analyst', '550000',10),
-    ('Ethics and Compliance Coordinator','76000',10);
+    ('Compliance Coordinator','76000',10);
     
 
     
