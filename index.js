@@ -29,11 +29,11 @@ function openPanel() {
       } else if (action === 'view all employees') {
         viewAllEmployees();
       } else if (action === 'add a department') {
-        addedDepartment();
+        addDepartment();
       } else if (action === 'add a role') {
-        addedRole();
+        addRole();
       } else if (action === 'add an employee') {
-        addedEmployee();
+        addEmployee();
       } else if (action === 'exit') {
         console.log('Closing the app');
         process.exit();
@@ -62,7 +62,7 @@ function viewAllEmployees() {
   });
 }
 
-function addedDepartment() {
+function addDepartment() {
   inquirer
     .prompt([
       {
@@ -87,7 +87,7 @@ function addedDepartment() {
     });
 }
 
-function addedRole() {
+function addRole() {
   const tablesCreate = new TablesCreate('view all departments');
   tablesCreate.render()
     .then((departments) => {
@@ -130,7 +130,7 @@ function addedRole() {
     });
 }
 
-function addedEmployee() {
+function addEmployee() {
  
   console.log('Implement adding an employee');
   openPanel();
