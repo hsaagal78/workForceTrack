@@ -1,6 +1,7 @@
 const inquirer = require('inquirer');
 const { TablesCreate } = require('./lib/Tables');
 
+
 function openPanel() {
   inquirer
     .prompt([
@@ -89,7 +90,6 @@ function addDepartment() {
 
 function addRole() {
   const tablesCreate = new TablesCreate('view all departments');
-  console.log(tablesCreate);
   tablesCreate.render()
     .then((departments) => {
       const departmentChoices = departments.map((department) => ({
@@ -130,75 +130,50 @@ function addRole() {
       openPanel();
     });
 }
-
-
 function addEmployee() {
-  const tablesCreate = new TablesCreate('view all roles');
-  // console.log(tablesCreate);
-  tablesCreate.render()
-    .then((roles) => {
-      // console.log('esta bien',roles);
-      const filteredRoles = roles.filter((role) => role.title !== undefined);
-      const roleChoices = filteredRoles.map((role) => ({
-        name: role.title,
-        value: role.id
-      }));
+  let roleChoices;
+  let managerChoices;
+
+  Promise.all([
+    new TablesCreate().getRoleTitles(),
+    new TablesCreate().getManagerIds()
+  ])
+    .then(([roleTitles, managerIds]) => {
       
+      roleChoices = roleTitles;
+      managerChoices = managerIds;
       return inquirer.prompt([
         {
           type: 'input',
           name: 'first_name',
-          message: 'What is the employee`s first name?'
+          message: 'What is the employee\'s first name?'
         },
         {
           type: 'input',
           name: 'last_name',
-          message: 'What is the employee`s last name?'
+          message: 'What is the employee\'s last name?'
         },
         {
           type: 'list',
           name: 'role_id',
-          message: 'What is the employee`s role?',
+          message: 'What is the employee\'s role?',
           choices: roleChoices
-        }
-      ]);
-    })
-    .then((answers) => {
-      const { first_name, last_name, role_id } = answers;
-      addManager( first_name, last_name, role_id );
-      const newEmployee = new TablesCreate('add an employee',first_name, last_name, role_id, manager_id);
-      return newEmployee.render();
-
-    })
-    .catch((error) => {
-      console.log('Error adding employee:', error);
-      openPanel();
-    });
-
-
-function addManager() {
-  const tablesCreateEmployees = new TablesCreate('view all employees');
-  console.log(tablesCreateEmployees);
-  return tablesCreateEmployees.render()
-    .then((employees) => {
-      const managerChoices = employees
-        .filter((employee) => employee.manager_id !== null)
-        .map((employee) => ({
-          name: `${employee.first_name} ${employee.last_name}`,
-          value: employee.id
-        }));
-
-      return inquirer.prompt([
+        },
         {
           type: 'list',
           name: 'manager_id',
-          message: 'Who is the employee`s manager?',
+          message: 'Who is the employee\'s manager?',
           choices: managerChoices
         }
       ]);
     })
     .then((answers) => {
-      const { manager_id } = answers;
+      const { first_name, last_name, role_id, manager_id } = answers;
+      console.log('fist name:', first_name);
+      console.log('last_name:', last_name);
+      console.log('Role:', role_id);
+      console.log('Manager', manager_id);
+
       const newEmployee = new TablesCreate('add an employee', first_name, last_name, role_id, manager_id);
       return newEmployee.render();
     })
@@ -210,9 +185,8 @@ function addManager() {
       console.log('Error adding employee:', error);
       openPanel();
     });
- }
 }
 
-openPanel();
+  openPanel();
 
 
