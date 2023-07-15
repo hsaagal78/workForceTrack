@@ -1,7 +1,7 @@
 const inquirer = require('inquirer');
 const { TablesCreate } = require('./lib/Tables');
 
-
+// Funcion to open panel and display options
 function openPanel() {
   inquirer
     .prompt([
@@ -22,7 +22,7 @@ function openPanel() {
     ])
     .then((answer) => {
       const { action } = answer;
-
+      // Perform the corresponding action based on the selected option
       if (action === 'view all departments') {
         viewAllDepartments();
       } else if (action === 'view all roles') {
@@ -41,21 +41,21 @@ function openPanel() {
       }
     });
 }
-
+//Function to view all departments
 function viewAllDepartments() {
   const tablesCreate = new TablesCreate('view all departments');
   tablesCreate.render().then(() => {
     openPanel();
   });
 }
-
+// Function to view all roles
 function viewAllRoles() {
   const tablesCreate = new TablesCreate('view all roles');
   tablesCreate.render().then(() => {
     openPanel();
   });
 }
-
+//Function to add a department
 function viewAllEmployees() {
   const tablesCreate = new TablesCreate('view all employees');
   tablesCreate.render().then(() => {
@@ -87,7 +87,7 @@ function addDepartment() {
         });
     });
 }
-
+//Function to add a role
 function addRole() {
   const tablesCreate = new TablesCreate('view all departments');
   tablesCreate.render()
@@ -130,6 +130,7 @@ function addRole() {
       openPanel();
     });
 }
+// Function to add an employee
 function addEmployee() {
   let roleChoices;
   let managerChoices;
@@ -186,7 +187,7 @@ function addEmployee() {
       openPanel();
     });
 }
-
+// Start the application by opening panel
   openPanel();
 
 
