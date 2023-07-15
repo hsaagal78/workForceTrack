@@ -174,7 +174,7 @@ function addEmployee() {
       console.log('Role:', role_id);
       console.log('Manager', manager_id);
 
-      const newEmployee = new TablesCreate('add an employee', first_name, last_name, role_id, manager_id);
+      const newEmployee = new TablesCreate('add an employee',null,null,null, first_name, last_name, role_id, manager_id);
       return newEmployee.render();
     })
     .then(() => {
