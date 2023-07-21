@@ -16,6 +16,7 @@ function openPanel() {
           'add a department',
           'add a role',
           'add an employee',
+          'update an employee role',
           'exit'
         ]
       }
@@ -35,6 +36,8 @@ function openPanel() {
         addRole();
       } else if (action === 'add an employee') {
         addEmployee();
+      } else if (action === 'update an employee role') {
+        updateEmployeeRole();
       } else if (action === 'exit') {
         console.log('Closing the app');
         process.exit();
@@ -186,6 +189,55 @@ function addEmployee() {
       console.log('Error adding employee:', error);
       openPanel();
     });
+}
+function updateEmployeeRole() {
+  let roleChoices;
+  let employeeChoices;
+
+  Promise.all([
+    new TablesCreate().getRoles(),
+    new TablesCreate().getEmployeesNames() 
+    
+  ])
+    .then(([roles, employees]) => {
+     
+      roleChoices = roles;
+      employeeChoices = employees;
+      return inquirer.prompt([
+         {
+          type: 'list',
+          name: 'employee',
+          message: 'What is the employee\'s name?',
+          choices: employeeChoices
+        },
+        {
+          type: 'list',
+          name: 'title',
+          message: 'What is the employee\'s new  role?',
+          choices: roleChoices
+        },
+    
+      ]);
+    })
+    .then((answers) => {
+      const { employee, title } = answers;
+      const employeeReady = employee;
+      const selectedEmployee = employeeChoices.find((emp) => emp.name === employeeReady);
+      const [first_name, last_name] = selectedEmployee.name.split(' ');
+
+      const newEmployee = new TablesCreate('update an employee role',title, null, null, first_name, last_name, null, null );
+      return newEmployee.render();
+    })
+    .then(() => {
+      console.log('Employee added successfully!');
+      openPanel();
+    })
+    .catch((error) => {
+      console.log('Error adding employee:', error);
+      openPanel();
+    });
+
+
 }
 // Start the application by opening panel
   openPanel();
